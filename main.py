@@ -26,23 +26,26 @@ def ppt_to_pdf_custom(input_file_name, output_file_name):
         deck = powerpoint.Presentations.Open(input_file_name)
         
         # Set custom export options
-        options = deck.ExportAsFixedFormat.Options
-        options.PublishWhat = 2  # ppPublishNotesPages
-        options.SlideShowName = ""
-        options.FrameSlides = True
-        options.IncludeHiddenSlides = True
-        options.IncludeComments = True
-        options.IncludeDocumentProperties = True
-        options.IncludeDocumentStructureTags = True
-        options.BitmapMissingFonts = True
-        options.UseISO19005_1 = False
-        options.OutputType = 1  # ppPrintOutputPDF
-        options.HandoutOrder = 1  # ppPrintHorizontalFirst
-        options.PrintHiddenSlides = True
-        options.PrintComments = True
-        options.RangeType = 1  # ppPrintAll
-
-        deck.ExportAsFixedFormat(Path=output_file_name, FixedFormatType=2, Intent=1, FrameSlides=True, HandoutOrder=1, OutputType=1)
+        deck.ExportAsFixedFormat(
+            Path=output_file_name,
+            FixedFormatType=2,  # ppFixedFormatTypePDF
+            Intent=1,  # ppFixedFormatIntentScreen
+            FrameSlides=True,
+            HandoutOrder=1,  # ppPrintHorizontalFirst
+            OutputType=2,  # ppPrintOutputSlides
+            PrintHiddenSlides=True,
+            PrintComments=True,
+            RangeType=1,  # ppPrintAll
+            SlideRange='',
+            FromPage=0,
+            ToPage=0,
+            IncludeDocProperties=True,
+            KeepIRMSettings=True,
+            DocStructureTags=True,
+            BitmapMissingFonts=True,
+            UseISO19005_1=False,
+            IncludeMarkup=True
+        )
         print(f"Successfully converted {input_file_name} to {output_file_name} with custom settings")
     except Exception as e:
         print(f"An error occurred: {str(e)}")
