@@ -1,6 +1,6 @@
 Instructions:
 
-Clone the script
+Clone the repo
 
 Run:
 pip install comtypes
