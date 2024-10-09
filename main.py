@@ -26,7 +26,6 @@ def ppt_to_pdf_custom(input_file_name, output_file_name):
     try:
         deck = powerpoint.Presentations.Open(input_file_name)
         
-        # Set custom export options based on the image
         export_options = {
             "Path": output_file_name,
             "FixedFormatType": 2,  # ppFixedFormatTypePDF
@@ -38,23 +37,8 @@ def ppt_to_pdf_custom(input_file_name, output_file_name):
             "BitmapMissingFonts": True,
         }
 
-        # Try exporting with each option individually to identify any problematic parameters
-        for key, value in export_options.items():
-            try:
-                if key == "Path":
-                    continue  # Skip Path as it's required
-                temp_options = {"Path": output_file_name, "FixedFormatType": 2, key: value}
-                deck.ExportAsFixedFormat(**temp_options)
-                print(f"Successfully exported with {key}")
-            except Exception as e:
-                print(f"Error with parameter {key}: {str(e)}")
-
-        # Now try with all options
-        try:
-            deck.ExportAsFixedFormat(**export_options)
-            print(f"Successfully converted {input_file_name} to {output_file_name} with custom settings")
-        except Exception as e:
-            print(f"Error during final export: {str(e)}")
+        deck.ExportAsFixedFormat(**export_options)
+        print(f"Successfully converted {input_file_name} to {output_file_name} with custom settings")
 
     except Exception as e:
         print(f"An error occurred: {str(e)}")
@@ -65,18 +49,28 @@ def ppt_to_pdf_custom(input_file_name, output_file_name):
             pass
         powerpoint.Quit()
 
-def ppt_to_pdf(input_file_name, output_file_name):
-    # Get absolute paths
-    input_file_name = os.path.abspath(input_file_name)
-    output_file_name = os.path.abspath(output_file_name)
+def process_folder(input_folder, output_folder, use_custom=False):
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
 
-    # Check if input file exists
-    if not os.path.exists(input_file_name):
-        raise FileNotFoundError(f"Input file not found: {input_file_name}")
+    for filename in os.listdir(input_folder):
+        if filename.lower().endswith('.pptx'):
+            input_path = os.path.join(input_folder, filename)
+            output_path = os.path.join(output_folder, f"{os.path.splitext(filename)[0]}.pdf")
+            
+            if use_custom:
+                ppt_to_pdf_custom(input_path, output_path)
+            else:
+                ppt_to_pdf_default(input_path, output_path)
 
-    # Ensure output file has .pdf extension
-    if not output_file_name.lower().endswith('.pdf'):
-        output_file_name += ".pdf"
+if __name__ == "__main__":
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    input_folder = os.path.join(script_dir, 'PPTX')
+    output_folder = os.path.join(script_dir, 'PDF')
+
+    if not os.path.exists(input_folder):
+        print(f"Error: Input folder '{input_folder}' does not exist.")
+        sys.exit(1)
 
     # Prompt user for export method
     while True:
@@ -85,14 +79,7 @@ def ppt_to_pdf(input_file_name, output_file_name):
             break
         print("Invalid choice. Please enter 1 or 2.")
 
-    if choice == '1':
-        ppt_to_pdf_default(input_file_name, output_file_name)
-    else:
-        ppt_to_pdf_custom(input_file_name, output_file_name)
-
-if __name__ == "__main__":
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    input_file = os.path.join(script_dir, 'test.pptx')
-    output_file = os.path.join(script_dir, 'lecture.pdf')
+    use_custom = (choice == '2')
     
-    ppt_to_pdf(input_file, output_file)
+    process_folder(input_folder, output_folder, use_custom)
+    print("Conversion process completed.")
