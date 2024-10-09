@@ -25,12 +25,14 @@ def ppt_to_pdf_custom(input_file_name, output_file_name):
     try:
         deck = powerpoint.Presentations.Open(input_file_name)
         
+		# https://learn.microsoft.com/en-us/office/vba/api/powerpoint.presentation.exportasfixedformat
         # Set custom export options
         deck.ExportAsFixedFormat(
             Path=output_file_name,
             FixedFormatType=2,  # ppFixedFormatTypePDF
             Intent=1,  # ppFixedFormatIntentScreen
             FrameSlides=True,
+            #ppPrintOutputNotesPages = True,
             HandoutOrder=1,  # ppPrintHorizontalFirst
             OutputType=2,  # ppPrintOutputNotesPages
             PrintHiddenSlides=True
@@ -76,3 +78,24 @@ if __name__ == "__main__":
     output_file = os.path.join(script_dir, 'lecture.pdf')
     
     ppt_to_pdf(input_file, output_file)
+    
+
+
+'''
+ExportAsFixedFormat (
+            Path=OutputFileName, 
+            FixedFormatType=2, 
+            Intent = 1, # optional
+            FrameSlides = False, #optional
+            #HandoutOrder, 		# optional
+            ppPrintOutputNotesPages=True, #OutputType, optional but this is the whole point
+            PrintHiddenSlides = True, #optional
+            PrintRange, 
+            RangeType, 
+            SlideShowName, 
+            IncludeDocProperties, 
+            KeepIRMSettings, 
+            DocStructureTags, 
+            BitmapMissingFonts, 
+            UseISO19005_1, 
+            ExternalExporter)'''
