@@ -1,5 +1,6 @@
 import comtypes.client
 import os
+import sys
 
 def ppt_to_pdf_default(input_file_name, output_file_name):
     powerpoint = comtypes.client.CreateObject("Powerpoint.Application")
@@ -25,19 +26,36 @@ def ppt_to_pdf_custom(input_file_name, output_file_name):
     try:
         deck = powerpoint.Presentations.Open(input_file_name)
         
-		# https://learn.microsoft.com/en-us/office/vba/api/powerpoint.presentation.exportasfixedformat
-        # Set custom export options
-        deck.ExportAsFixedFormat(
-            Path=output_file_name,
-            FixedFormatType=2,  # ppFixedFormatTypePDF
-            Intent=1,  # ppFixedFormatIntentScreen
-            FrameSlides=True,
-            #ppPrintOutputNotesPages = True,
-            HandoutOrder=1,  # ppPrintHorizontalFirst
-            OutputType=2,  # ppPrintOutputNotesPages
-            PrintHiddenSlides=True
-        )
-        print(f"Successfully converted {input_file_name} to {output_file_name} with custom settings")
+        # Set custom export options based on the image
+        export_options = {
+            "Path": output_file_name,
+            "FixedFormatType": 2,  # ppFixedFormatTypePDF
+            "Intent": 1,  # ppFixedFormatIntentScreen
+            "OutputType": 5,  # ppPrintOutputNotesPages
+            "PrintHiddenSlides": True,
+            "IncludeDocProperties": True,
+            "DocStructureTags": True,
+            "BitmapMissingFonts": True,
+        }
+
+        # Try exporting with each option individually to identify any problematic parameters
+        for key, value in export_options.items():
+            try:
+                if key == "Path":
+                    continue  # Skip Path as it's required
+                temp_options = {"Path": output_file_name, "FixedFormatType": 2, key: value}
+                deck.ExportAsFixedFormat(**temp_options)
+                print(f"Successfully exported with {key}")
+            except Exception as e:
+                print(f"Error with parameter {key}: {str(e)}")
+
+        # Now try with all options
+        try:
+            deck.ExportAsFixedFormat(**export_options)
+            print(f"Successfully converted {input_file_name} to {output_file_name} with custom settings")
+        except Exception as e:
+            print(f"Error during final export: {str(e)}")
+
     except Exception as e:
         print(f"An error occurred: {str(e)}")
     finally:
@@ -78,24 +96,3 @@ if __name__ == "__main__":
     output_file = os.path.join(script_dir, 'lecture.pdf')
     
     ppt_to_pdf(input_file, output_file)
-    
-
-
-'''
-ExportAsFixedFormat (
-            Path=OutputFileName, 
-            FixedFormatType=2, 
-            Intent = 1, # optional
-            FrameSlides = False, #optional
-            #HandoutOrder, 		# optional
-            ppPrintOutputNotesPages=True, #OutputType, optional but this is the whole point
-            PrintHiddenSlides = True, #optional
-            PrintRange, 
-            RangeType, 
-            SlideShowName, 
-            IncludeDocProperties, 
-            KeepIRMSettings, 
-            DocStructureTags, 
-            BitmapMissingFonts, 
-            UseISO19005_1, 
-            ExternalExporter)'''
