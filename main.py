@@ -32,19 +32,8 @@ def ppt_to_pdf_custom(input_file_name, output_file_name):
             Intent=1,  # ppFixedFormatIntentScreen
             FrameSlides=True,
             HandoutOrder=1,  # ppPrintHorizontalFirst
-            OutputType=2,  # ppPrintOutputSlides
-            PrintHiddenSlides=True,
-            PrintComments=True,
-            RangeType=1,  # ppPrintAll
-            SlideRange='',
-            FromPage=0,
-            ToPage=0,
-            IncludeDocProperties=True,
-            KeepIRMSettings=True,
-            DocStructureTags=True,
-            BitmapMissingFonts=True,
-            UseISO19005_1=False,
-            IncludeMarkup=True
+            OutputType=2,  # ppPrintOutputNotesPages
+            PrintHiddenSlides=True
         )
         print(f"Successfully converted {input_file_name} to {output_file_name} with custom settings")
     except Exception as e:
