@@ -5,6 +5,7 @@ This project converts PowerPoint presentations to PDF and optionally performs AI
 ## Dependencies
 
 Install the required packages:
+
 pip install comtypes requests PyPDF2 python-dotenv
 
 ## Setup
