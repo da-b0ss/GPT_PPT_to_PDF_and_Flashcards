@@ -12,7 +12,7 @@ pip install comtypes requests PyPDF2 python-dotenv
 
 1. Clone the repository
 2. Set up your OpenAI API key:
-   - Create a `.env` file in the project root
+   - Open `.env` in the project root
    - Add your API key: `OPENAI_API_KEY=your_api_key_here`
 
 ## Usage
