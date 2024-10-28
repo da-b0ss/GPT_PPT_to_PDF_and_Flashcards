@@ -49,7 +49,7 @@ def create_brainrot_lecture(pdf_path):
         page_texts = extract_text_by_page(pdf_path)
         simplified_explanations = []
         
-        brainrot_prompt = "Break this down into smaller, easier-to-understand parts.  Be concise yet thorough so include important procedures, facts, dates, formulas, or core ideas related to this topic. Also, create a memorization technique to remember these core concepts easily for example (but not limited to) using analogies and real-life examples to simplify the concept and make it more relatable. Also dont respond with any human remarks like SURE HERE IS YOUR ANSWR, just give me the text i am requesting. Here's the content to explain: "
+        brainrot_prompt = "Break this down into smaller, easier-to-understand parts.  Be concise yet thorough so include important procedures, facts, dates, formulas, or core ideas related to this topic. Also, create a memorization technique to remember these core concepts easily for example (but not limited to) using analogies and real-life examples to simplify the concept and make it more relatable. Also dont respond with any human remarks like SURE HERE IS YOUR ANSWER, just give me the text i am requesting. Also dont use asterisks to bold text, dont try to change text formatting in that manner. You can use dashes to separate ideas though. Here's the content to explain: "
 
         #trendy_brainrot_prompt = "Break this down into smaller, easier-to-understand parts.  Be concise yet thorough so include important procedures, facts, dates, formulas, or core ideas related to this topic. Also, create a memorization technique to remember these core concepts easily for example (but not limited to) using analogies and real-life examples to simplify the concept and make it more relatable, however, what ever technique you use, you must phrase it in tiktok brainrot ways. Also dont respond with any human remarks like SURE HERE IS YOUR ANSWR, just give me the text i am requesting. Here's the content to explain: "
        
@@ -67,22 +67,32 @@ def create_brainrot_lecture(pdf_path):
 
 def process_all_pdfs_brainrot(pdf_folder):
     """Process all PDFs in the folder for brainrot lectures"""
-    results = {}
+    # Create Transcripts folder if it doesn't exist
+    transcripts_folder = "Transcripts"
+    if not os.path.exists(transcripts_folder):
+        os.makedirs(transcripts_folder)
+
     for pdf in os.listdir(pdf_folder):
         if pdf.lower().endswith('.pdf'):
             pdf_path = os.path.join(pdf_folder, pdf)
-            print(f"\nProcessing {pdf}...")
-            results[pdf] = create_brainrot_lecture(pdf_path)
-    return results
-
-def write_brainrot_to_file(results, output_file):
-    with open(output_file, 'w', encoding='utf-8') as file:
-        for pdf_name, explanations in results.items():
-            #file.write(f"\n{'='*50}\n")
-            #file.write(f"BRAINROT LECTURE: {pdf_name}\n")
-            #file.write(f"{'='*50}\n\n")
+            pdf_name = os.path.splitext(pdf)[0]  # Get filename without extension
             
-            for page_num, explanation in enumerate(explanations, 1):
+            print(f"\nProcessing {pdf}...")
+            explanations = create_brainrot_lecture(pdf_path)
+            
+            # Create individual transcript file
+            output_file = os.path.join(transcripts_folder, f"{pdf_name}.txt")
+            write_single_transcript(pdf_name, explanations, output_file)
+            print(f"Created transcript file: {output_file}")
+
+def write_single_transcript(pdf_name, explanations, output_file):
+    """Write explanations for a single PDF to its own file"""
+    with open(output_file, 'w', encoding='utf-8') as file:
+        #file.write(f"BRAINROT LECTURE: {pdf_name}\n")
+        #file.write(f"{'='*50}\n\n")
+        
+        for page_num, explanation in enumerate(explanations, 1):
+            if explanation != "Skipped for testing":  # Only write non-skipped pages
                 file.write(f"\nPAGE {page_num}:\n")
                 file.write(f"{'-'*20}\n")
                 file.write(f"{explanation}\n")
@@ -140,6 +150,7 @@ def create_brainrot_lecture(pdf_path):
         simplified_explanations = []
         
         brainrot_prompt = "Break this down into smaller, easier-to-understand parts.  Be concise yet thorough so include important procedures, facts, dates, formulas, or core ideas related to this topic. Also, create a memorization technique to remember these core concepts easily for example (but not limited to) using analogies and real-life examples to simplify the concept and make it more relatable. Also dont respond with any human remarks like SURE HERE IS YOUR ANSWR, just give me the text i am requesting. Here's the content to explain: "
+        #brainrot_prompt_v2 = "Break this down into smaller, easier-to-understand parts.  Be concise yet thorough so include important procedures, facts, dates, formulas, or core ideas related to this topic. Also, create a memorization technique to remember these core concepts easily for example (but not limited to) using analogies and real-life examples to simplify the concept and make it more relatable. Also dont respond with any human remarks like SURE HERE IS YOUR ANSWER, just give me the text i am requesting. Also dont use asterisks to bold text, dont try to change text formatting in that manner. You can use dashes to separate ideas though. Here's the content to explain: "
 
         #trendy_brainrot_prompt = "Break this down into smaller, easier-to-understand parts.  Be concise yet thorough so include important procedures, facts, dates, formulas, or core ideas related to this topic. Also, create a memorization technique to remember these core concepts easily for example (but not limited to) using analogies and real-life examples to simplify the concept and make it more relatable, however, what ever technique you use, you must phrase it in tiktok brainrot ways. Also dont respond with any human remarks like SURE HERE IS YOUR ANSWR, just give me the text i am requesting. Here's the content to explain: "
        
@@ -162,7 +173,8 @@ def create_brainrot_lecture(pdf_path):
     simplified_explanations = []
     
     brainrot_prompt = "Break this down into smaller, easier-to-understand parts.  Be concise yet thorough so include important procedures, facts, dates, formulas, or core ideas related to this topic. Also, create a memorization technique to remember these core concepts easily for example (but not limited to) using analogies and real-life examples to simplify the concept and make it more relatable. Also dont respond with any human remarks like SURE HERE IS YOUR ANSWR, just give me the text i am requesting. Here's the content to explain: "
-    
+    #brainrot_prompt_v2 = "Break this down into smaller, easier-to-understand parts.  Be concise yet thorough so include important procedures, facts, dates, formulas, or core ideas related to this topic. Also, create a memorization technique to remember these core concepts easily for example (but not limited to) using analogies and real-life examples to simplify the concept and make it more relatable. Also dont respond with any human remarks like SURE HERE IS YOUR ANSWER, just give me the text i am requesting. Also dont use asterisks to bold text, dont try to change text formatting in that manner. You can use dashes to separate ideas though. Here's the content to explain: "
+
     for page_num, page_text in enumerate(page_texts, 1):
         print(f"Processing page {page_num} of {len(page_texts)}...")
         response = query(brainrot_prompt + page_text)

@@ -80,9 +80,8 @@ def create_brainrot_lectures():
             return
             
         print("Creating Brainrot Lectures...")
-        results = ai.process_all_pdfs_brainrot(pdf_folder)
-        ai.write_brainrot_to_file(results, "brainrot_lectures.txt")
-        print("Brainrot Lectures have been created and saved to 'brainrot_lectures.txt'")
+        ai.process_all_pdfs_brainrot(pdf_folder)
+        print("Brainrot Lectures have been created in the 'Transcripts' folder")
     except Exception as e:
         print(f"Error creating Brainrot Lectures: {e}")
 
