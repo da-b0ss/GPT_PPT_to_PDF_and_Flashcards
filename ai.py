@@ -65,27 +65,6 @@ def create_brainrot_lecture(pdf_path):
         
         return simplified_explanations
 
-'''
-def create_brainrot_lecture(pdf_path):
-    """Create simplified explanations for each page of a PDF"""
-    page_texts = extract_text_by_page(pdf_path)
-    simplified_explanations = []
-    
-    brainrot_prompt = "Break this down into smaller, easier-to-understand parts.  Be concise yet thorough so include important procedures, facts, dates, formulas, or core ideas related to this topic. Also, create a memorization technique to remember these core concepts easily for example (but not limited to) using analogies and real-life examples to simplify the concept and make it more relatable. Also dont respond with any human remarks like SURE HERE IS YOUR ANSWR, just give me the text i am requesting. Here's the content to explain: "
-    
-    for page_num, page_text in enumerate(page_texts, 1):
-        print(f"Processing page {page_num} of {len(page_texts)}...")
-        response = query(brainrot_prompt + page_text)
-        
-        if 'choices' in response and len(response['choices']) > 0:
-            explanation = response['choices'][0]['message']['content']
-            simplified_explanations.append(explanation)
-        else:
-            simplified_explanations.append(f"Error processing page {page_num}")
-    
-    return simplified_explanations
-'''
-
 def process_all_pdfs_brainrot(pdf_folder):
     """Process all PDFs in the folder for brainrot lectures"""
     results = {}
@@ -99,9 +78,9 @@ def process_all_pdfs_brainrot(pdf_folder):
 def write_brainrot_to_file(results, output_file):
     with open(output_file, 'w', encoding='utf-8') as file:
         for pdf_name, explanations in results.items():
-            file.write(f"\n{'='*50}\n")
-            file.write(f"BRAINROT LECTURE: {pdf_name}\n")
-            file.write(f"{'='*50}\n\n")
+            #file.write(f"\n{'='*50}\n")
+            #file.write(f"BRAINROT LECTURE: {pdf_name}\n")
+            #file.write(f"{'='*50}\n\n")
             
             for page_num, explanation in enumerate(explanations, 1):
                 file.write(f"\nPAGE {page_num}:\n")
@@ -152,3 +131,47 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+'''
+#testing the function with a single pdf slide as to not waste tokens
+def create_brainrot_lecture(pdf_path):
+        """Create simplified explanations for the first page of a PDF"""
+        page_texts = extract_text_by_page(pdf_path)
+        simplified_explanations = []
+        
+        brainrot_prompt = "Break this down into smaller, easier-to-understand parts.  Be concise yet thorough so include important procedures, facts, dates, formulas, or core ideas related to this topic. Also, create a memorization technique to remember these core concepts easily for example (but not limited to) using analogies and real-life examples to simplify the concept and make it more relatable. Also dont respond with any human remarks like SURE HERE IS YOUR ANSWR, just give me the text i am requesting. Here's the content to explain: "
+
+        #trendy_brainrot_prompt = "Break this down into smaller, easier-to-understand parts.  Be concise yet thorough so include important procedures, facts, dates, formulas, or core ideas related to this topic. Also, create a memorization technique to remember these core concepts easily for example (but not limited to) using analogies and real-life examples to simplify the concept and make it more relatable, however, what ever technique you use, you must phrase it in tiktok brainrot ways. Also dont respond with any human remarks like SURE HERE IS YOUR ANSWR, just give me the text i am requesting. Here's the content to explain: "
+       
+        if page_texts:
+            print(f"Processing page 5 of {len(page_texts)}...")
+            response = query(brainrot_prompt + page_texts[5])
+            
+            if 'choices' in response and len(response['choices']) > 0:
+                explanation = response['choices'][0]['message']['content']
+                simplified_explanations.append(explanation)
+            else:
+                simplified_explanations.append("Error processing page 5")
+        
+        return simplified_explanations
+
+
+def create_brainrot_lecture(pdf_path):
+    """Create simplified explanations for each page of a PDF"""
+    page_texts = extract_text_by_page(pdf_path)
+    simplified_explanations = []
+    
+    brainrot_prompt = "Break this down into smaller, easier-to-understand parts.  Be concise yet thorough so include important procedures, facts, dates, formulas, or core ideas related to this topic. Also, create a memorization technique to remember these core concepts easily for example (but not limited to) using analogies and real-life examples to simplify the concept and make it more relatable. Also dont respond with any human remarks like SURE HERE IS YOUR ANSWR, just give me the text i am requesting. Here's the content to explain: "
+    
+    for page_num, page_text in enumerate(page_texts, 1):
+        print(f"Processing page {page_num} of {len(page_texts)}...")
+        response = query(brainrot_prompt + page_text)
+        
+        if 'choices' in response and len(response['choices']) > 0:
+            explanation = response['choices'][0]['message']['content']
+            simplified_explanations.append(explanation)
+        else:
+            simplified_explanations.append(f"Error processing page {page_num}")
+    
+    return simplified_explanations
+'''
