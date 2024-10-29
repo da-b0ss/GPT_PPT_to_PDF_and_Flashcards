@@ -8,6 +8,19 @@ from voice import convert_text_to_mp3_pyttsx3
 from moviepy.editor import ImageClip, AudioFileClip, CompositeVideoClip
 import fitz  # PyMuPDF for PDF handling
 
+
+'''
+
+pip install cryptography
+pip install gtts playsound
+pip install gtts pydub
+pip install moviepy
+pip install PyMuPDF
+
+
+pip install gtts pyttsx3
+'''
+
 def ppt_to_pdf_default(input_file_name, output_file_name):
     powerpoint = comtypes.client.CreateObject("Powerpoint.Application")
     powerpoint.Visible = 1
