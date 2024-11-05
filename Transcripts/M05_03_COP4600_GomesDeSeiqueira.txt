@@ -1,0 +1,43 @@
+
+PAGE 1:
+--------------------
+Virtual memory is a memory management technique that allows a computer to compensate for physical memory limitations by using a combination of RAM and disk storage. Here's a breakdown:
+
+1. **Definition**: Virtual memory is a memory management technique where a computer's operating system uses a portion of the hard drive as additional memory when physical RAM is full.
+
+2. **Procedure**: The operating system divides memory into pages and stores them on the hard drive in a swap file or paging file. When a program needs more memory than is physically available, the OS swaps data between RAM and the hard drive.
+
+3. **Importance**: Virtual memory allows computers to run more applications simultaneously, avoiding crashes due to insufficient physical memory.
+
+4. **Facts**: Virtual memory is slower than physical memory (RAM) because accessing data from the hard drive is slower.
+
+5. **Date**: The concept of virtual memory was first introduced in the early 1960s.
+
+**Memorization Technique**:
+Imagine your computer's physical memory (RAM) as a desk where you can work efficiently, but when the desk is full, you start storing extra files in a drawer (virtual memory on the hard drive). It takes more time to access files from the drawer, just like accessing data from virtual memory is slower than from physical memory.
+--------------------
+
+PAGE 2:
+--------------------
+Core Concepts:
+1. Virtual memory is a memory management technique that provides an illusion to the system that it has more memory (RAM) than it actually does by using a combination of hardware and software.
+
+2. It allows the operating system to move data back and forth between the RAM and the hard disk when needed, optimizing the usage of limited physical memory.
+
+3. Virtual memory helps in running larger programs and multiple processes simultaneously by swapping parts of the memory between RAM and the disk.
+
+Memorization Technique:
+Imagine virtual memory as a magical backpack that can hold way more items than it physically looks like. You can put items in the backpack and swap them with your actual storage space (like a closet) whenever you need to access them easily.
+--------------------
+
+PAGE 3:
+--------------------
+Virtual memory is a system managed by the operating system that allows a running process to access memory beyond what is physically available on the hardware.
+
+- In virtual memory, the OS provides the process with a virtual address space composed of pages (or segments in some systems).
+- The process generates virtual addresses when it needs to access memory.
+- The OS translates these virtual addresses into physical addresses using the Memory Management Unit (MMU), swapping pages or segments between physical memory and disk as necessary.
+
+Memorization technique:
+Think of virtual memory as a library. The virtual address space is like a huge library catalog with many pages filled with information. When someone wants to read a book from this catalog, they generate a virtual address (like checking out a book). The librarian (MMU) then translates this address to find the physical location of the book on the shelf. If the book is not on the shelf (in memory), the librarian swaps it with one that is (from disk).
+--------------------
