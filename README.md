@@ -11,11 +11,7 @@ This project converts PowerPoint presentations to PDF, performs AI analysis to c
 
 ## Dependencies
 Install all required packages using the command:
-```
-pip install comtypes PyPDF2 python-dotenv requests cryptography gtts playsound pydub moviepy PyMuPDF pyttsx3 pathlib && echo Successfully installed all dependencies! || echo Error occurred during installation. Please check error messages above.
-```
 
-Or manually install:
 ```bash
 pip install comtypes PyPDF2 python-dotenv requests cryptography gtts playsound pydub moviepy PyMuPDF pyttsx3 pathlib
 ```
