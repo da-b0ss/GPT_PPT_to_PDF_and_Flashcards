@@ -1,4 +1,4 @@
-# PowerPoint to PDF Converter with AI Analysis and Video Generation
+# SmartStudy - A PowerPoint to PDF Converter with AI Analysis and Video Generation
 
 This project converts PowerPoint presentations to PDF, performs AI analysis to create simplified explanations, and generates educational videos with voiceovers.
 
@@ -44,7 +44,7 @@ Run `python main.py` and choose from the following options:
    - Analyzes PDFs and generates term-definition pairs
    - Creates a `pairs.txt` file with study materials
 
-4. **Make Brainrot Lectures**
+4. **Make Short-Form Content Lectures**
    - Creates simplified explanations of each slide
    - Generates memorization techniques and examples
    - Saves explanations in the Transcripts folder
